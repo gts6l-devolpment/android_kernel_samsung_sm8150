@@ -317,35 +317,45 @@ int kernfs_iop_permission(struct inode *inode, int mask)
 	return generic_permission(inode, mask);
 }
 
-static int kernfs_xattr_get(const struct xattr_handler *handler,
-			    struct dentry *unused, struct inode *inode,
-			    const char *suffix, void *value, size_t size)
+int kernfs_xattr_get(struct kernfs_node *kn, const char *name,
+		     void *value, size_t size)
 {
-	const char *name = xattr_full_name(handler, suffix);
-	struct kernfs_node *kn = inode->i_private;
-	struct kernfs_iattrs *attrs;
-
-	attrs = kernfs_iattrs_noalloc(kn);
+	struct kernfs_iattrs *attrs = kernfs_iattrs_noalloc(kn);
 	if (!attrs)
 		return -ENODATA;
 
 	return simple_xattr_get(&attrs->xattrs, name, value, size);
 }
 
-static int kernfs_xattr_set(const struct xattr_handler *handler,
-			    struct dentry *unused, struct inode *inode,
-			    const char *suffix, const void *value,
-			    size_t size, int flags)
+int kernfs_xattr_set(struct kernfs_node *kn, const char *name,
+		     const void *value, size_t size, int flags)
 {
-	const char *name = xattr_full_name(handler, suffix);
-	struct kernfs_node *kn = inode->i_private;
-	struct kernfs_iattrs *attrs;
-
-	attrs = kernfs_iattrs(kn);
+	struct kernfs_iattrs *attrs = kernfs_iattrs(kn);
 	if (!attrs)
 		return -ENOMEM;
 
 	return simple_xattr_set(&attrs->xattrs, name, value, size, flags, NULL);
+}
+
+static int kernfs_vfs_xattr_get(const struct xattr_handler *handler,
+				struct dentry *unused, struct inode *inode,
+				const char *suffix, void *value, size_t size)
+{
+	const char *name = xattr_full_name(handler, suffix);
+	struct kernfs_node *kn = inode->i_private;
+
+	return kernfs_xattr_get(kn, name, value, size);
+}
+
+static int kernfs_vfs_xattr_set(const struct xattr_handler *handler,
+				struct dentry *unused, struct inode *inode,
+				const char *suffix, const void *value,
+				size_t size, int flags)
+{
+	const char *name = xattr_full_name(handler, suffix);
+	struct kernfs_node *kn = inode->i_private;
+
+	return kernfs_xattr_set(kn, name, value, size, flags);
 }
 
 static int kernfs_vfs_user_xattr_add(struct kernfs_node *kn,
@@ -430,8 +440,8 @@ static int kernfs_vfs_user_xattr_set(const struct xattr_handler *handler,
 
 static const struct xattr_handler kernfs_trusted_xattr_handler = {
 	.prefix = XATTR_TRUSTED_PREFIX,
-	.get = kernfs_xattr_get,
-	.set = kernfs_xattr_set,
+	.get = kernfs_vfs_xattr_get,
+	.set = kernfs_vfs_xattr_set,
 };
 
 static int kernfs_security_xattr_set(const struct xattr_handler *handler,
@@ -467,7 +477,7 @@ static int kernfs_security_xattr_set(const struct xattr_handler *handler,
 
 static const struct xattr_handler kernfs_security_xattr_handler = {
 	.prefix = XATTR_SECURITY_PREFIX,
-	.get = kernfs_xattr_get,
+	.get = kernfs_vfs_xattr_get,
 	.set = kernfs_security_xattr_set,
 };
 
