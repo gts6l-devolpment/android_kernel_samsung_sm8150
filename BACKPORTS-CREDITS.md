@@ -1,9 +1,9 @@
 # Galaxy Tab S6 (gts6l) — Android 17 / LineageOS 24.0 kernel backports: credits
 
 Base: `lindofelix/android_kernel_samsung_gts6l` @ `lineage-22` (4.14.190).
-Branch: `lineage-24.0-gts6l`. Total commits on top of base: **61** (60 backports/ adaptations + this credits document).
+Branch: `lineage-24.0-gts6l`. Total commits on top of base: **66** (65 backports/adaptations + this credits document).
 
-All entries below were applied with `git cherry-pick -x`, a Git 3-way merge (`git apply -3` + `git commit -C`), or `git commit` for the local adaptations. Original authorship is preserved in every case. The URL points to the public commit on GitHub or GitLab from which the change was sourced (including the GitLab mirror where applicable).
+All entries below were applied with `git cherry-pick -x`, `git apply -3` + `git commit -C`, or a locally authored commit for build adaptations. Original authorship is preserved in every case. The URL points to the public commit on GitHub or GitLab from which the change was sourced.
 
 | Local SHA | Author | Subject | Original SHA | Source |
 |---|---|---|---|---|
@@ -67,6 +67,11 @@ All entries below were applied with `git cherry-pick -x`, a Git 3-way merge (`gi
 | `79cb0352a8ff` | `Roman Gushchin` | `BACKPORT: cgroup: freezer: fix frozen state inheritance` | `c82d883e6f02` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/c82d883e6f02ddae76801bf2788530f9e41519e6` |
 | `4fcb3a3ef9a7` | `Oleg Nesterov` | `BACKPORT: cgroup: freezer: call cgroup_enter_frozen() with preemption disabled in ptrace_stop()` | `957c39896c14` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/957c39896c14030d2a466c4cab58302ab5f620b3` |
 | `7958544930e1` | `Roman Gushchin` | `BACKPORT: signal: unconditionally leave the frozen state in ptrace_stop()` | `f4655d5501e1` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/f4655d5501e1cf9fe754de397e84c5dd304dc974` |
+| `8655c5510046` | Shaokun Zhang | docs: add full backport credits for Android 17 / LOS 24.0 | — | local adaptation |
+| `ee9f6a60c5f8` | `Daniel Xu` | `UPSTREAM: kernfs: Add removed_size out param for simple_xattr_set` | `c0e993603128` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/c0e9936031286a163eb16d1400634025e48e5e2b` |
+| `f18b8bb1b6e0` | `Ondrej Mosnacek` | `UPSTREAM: kernfs: do not alloc iattrs in kernfs_xattr_get` | `8648b44d032c` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/8648b44d032c09a38b000e6ebd4673c3ad34f791` |
+| `4e4b93c97cf4` | `Ondrej Mosnacek` | `BACKPORT: kernfs: fix xattr name handling in LSM helpers` | `5c5fe07598a3` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/5c5fe07598a32526a3c1756a2d5d19183acfe109` |
+| `6e5e8a574266` | `Khaeru Irgi` | `arm64/crypto: remove non-standard notation` | `3321226f3bf0` | `https://github.com/HuTao77-Studio/android_kernel_xiaomi_elish/commit/3321226f3bf0956f8ab9871235bbc7a65c4c84e6` |
 
 ## Skipped / adapted commits
 
@@ -76,11 +81,12 @@ All entries below were applied with `git cherry-pick -x`, a Git 3-way merge (`gi
 - `0eaf911a220` (memcg `memory.events` subtrees), `b3f11c33f7f` (`cgroup_ino` WARN_ON) — conflict with the Samsung 4.14 cgroup/memcg layout; not applied.
 - `7a05073b02d`, `28586903263` — written for Google's v2-freezer variant in `kernel/cgroup/freezer.c`; the Samsung jobctl-trap freezer backport used here implements the same feature with a different internal API.
 - `967629779d4` — cherry-pick resulted in an empty patch (equivalent cleanup already present).
+- `17d61452fa1` (`kernfs: use simple_xattrs for security attributes`) — not applied; the Samsung custom `kernfs_security_xattr_set()` is retained. `5c5fe07598a` was merged with it by switching the handler's `.get` to the new full-name-aware `kernfs_vfs_xattr_get()`.
 - EROFS: already enabled (`CONFIG_EROFS_FS=y`, xattrs/ACL/security/ZIP); no discrete EROFS commits exist in the tracked upstream branches.
 
 ## Verification
 
 - `make ARCH=arm64 LLVM=1 LLVM_IAS=1 gts6l_eur_open_defconfig` — OK.
-- clang object builds: `kernel/fork.o`, `kernel/pid.o`, `kernel/signal.o`, `kernel/cgroup/cgroup.o`, `kernel/cgroup/freezer.o`, `kernel/bpf/cgroup.o`, `lib/usercopy.o`, `init/initramfs.o`, `fs/proc/cmdline.o` — OK.
+- clang object builds: `kernel/fork.o`, `kernel/pid.o`, `kernel/signal.o`, `kernel/cgroup/cgroup.o`, `kernel/cgroup/freezer.o`, `kernel/bpf/cgroup.o`, `lib/usercopy.o`, `init/initramfs.o`, `fs/proc/cmdline.o`, `fs/kernfs/inode.o`, `arch/arm64/crypto/aes-ce.o` — OK.
 - clone3 syscall wired for arm64 and arm32 (`__NR_clone3 435`), `CAP_CHECKPOINT_RESTORE` defined.
 - `CONFIG_INITRAMFS_IGNORE_SKIP_FLAG`, `CONFIG_PROC_CMDLINE_APPEND_ANDROID_FORCE_NORMAL_BOOT`, `CONFIG_BPF_JIT(_ALWAYS_ON)` enabled in `gts6l_eur_open_defconfig`.
