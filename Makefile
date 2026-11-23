@@ -550,6 +550,9 @@ CLANG_FLAGS	+= $(call cc-option, -Wno-misleading-indentation)
 CLANG_FLAGS	+= $(call cc-option, -Wno-bool-operation)
 CLANG_FLAGS	+= $(call cc-option, -Wno-unsequenced)
 KBUILD_CFLAGS	+= $(CLANG_FLAGS)
+# Legacy vendor drivers contain unused-but-set variables; keep clang builds
+# non-fatal for this class of warning.
+KBUILD_CFLAGS	+= -Wno-error=unused-but-set-variable
 KBUILD_AFLAGS	+= $(CLANG_FLAGS)
 export CLANG_FLAGS
 ifeq ($(ld-name),lld)
@@ -638,7 +641,9 @@ scripts: scripts_basic include/config/auto.conf include/config/tristate.conf \
 
 # Objects we will link into vmlinux / subdirs we need to visit
 init-y		:= init/
-drivers-y	:= drivers/ sound/ firmware/ techpack/
+drivers-y	:= drivers/ sound/ firmware/ \
+		   techpack/audio/soc/ techpack/audio/dsp/ techpack/audio/ipc/ \
+		   techpack/audio/asoc/ techpack/stub/
 net-y		:= net/
 libs-y		:= lib/
 core-y		:= usr/
@@ -1030,6 +1035,12 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
 
 # Require designated initializers for all marked structures
 KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
+
+# Legacy vendor drivers still use empty parameter lists; keep clang builds
+# non-fatal for this class of warning.
+ifneq ($(LLVM),)
+KBUILD_CFLAGS   += -Wno-error=strict-prototypes
+endif
 
 # change __FILE__ to the relative path from the srctree
 KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)

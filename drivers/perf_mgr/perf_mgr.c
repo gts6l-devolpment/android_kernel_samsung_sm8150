@@ -12,7 +12,7 @@
 #include <linux/list.h>
 #include <linux/mutex.h>
 #include <linux/spinlock.h>
-#include <../gpu/drm/msm/samsung_lego/ss_panel_notify.h>
+#include "../gpu/drm/msm/samsung_lego/ss_panel_notify.h"
 #include <linux/kobject.h>
 #include <linux/slab.h>
 
