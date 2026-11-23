@@ -25,7 +25,7 @@
 #include <media/cam_req_mgr.h>
 #include "cam_req_mgr_core.h"
 #include "cam_req_mgr_interface.h"
-#include "cam_context.h"
+#include "../cam_core/cam_context.h"
 
 TRACE_EVENT(cam_context_state,
 	TP_PROTO(const char *name, struct cam_context *ctx),
