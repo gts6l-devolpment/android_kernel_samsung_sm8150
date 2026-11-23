@@ -1040,6 +1040,7 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
 # non-fatal for this class of warning.
 ifneq ($(LLVM),)
 KBUILD_CFLAGS   += -Wno-error=strict-prototypes
+KBUILD_CFLAGS   += -Wno-error=implicit-enum-enum-cast
 endif
 
 # change __FILE__ to the relative path from the srctree
