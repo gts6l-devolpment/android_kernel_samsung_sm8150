@@ -375,6 +375,19 @@ HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \
 endif
 
 # Make variables (CC, etc...)
+ifneq ($(LLVM),)
+AS		= llvm-as
+LD		= ld.lld
+REAL_CC		= clang
+LDGOLD		= ld.lld
+CPP		= $(CC) -E
+AR		= llvm-ar
+NM		= llvm-nm
+STRIP		= llvm-strip
+OBJCOPY		= llvm-objcopy
+OBJDUMP		= llvm-objdump
+READELF		= llvm-readelf
+else
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
 REAL_CC		= $(CROSS_COMPILE)gcc
@@ -385,6 +398,8 @@ NM		= $(CROSS_COMPILE)nm
 STRIP		= $(CROSS_COMPILE)strip
 OBJCOPY		= $(CROSS_COMPILE)objcopy
 OBJDUMP		= $(CROSS_COMPILE)objdump
+READELF		= $(CROSS_COMPILE)readelf
+endif
 AWK		= awk
 GENKSYMS	= scripts/genksyms/genksyms
 INSTALLKERNEL  := installkernel
@@ -395,7 +410,11 @@ CHECK		= sparse
 
 # Use the wrapper for the compiler.  This wrapper scans for new
 # warnings and causes the build to stop upon encountering them
+ifneq ($(LLVM),)
+CC		= $(REAL_CC)
+else
 CC		= $(PYTHON) $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
+endif
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
@@ -526,7 +545,6 @@ CLANG_FLAGS	+= -no-integrated-as
 GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
 CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
 endif
-CLANG_FLAGS	+= -no-integrated-as
 CLANG_FLAGS	+= -Werror=unknown-warning-option
 CLANG_FLAGS	+= $(call cc-option, -Wno-misleading-indentation)
 CLANG_FLAGS	+= $(call cc-option, -Wno-bool-operation)
