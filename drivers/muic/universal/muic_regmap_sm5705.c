@@ -55,7 +55,7 @@ extern void muic_afc_delay_check_state(int state);
 #endif
 
 extern unsigned int system_rev;
-extern muic_is_charger_ready(void);
+extern int muic_is_charger_ready(void);
 
 #define ADC_DETECT_TIME_200MS (0x03)
 #define KEY_PRESS_TIME_100MS  (0x00)
