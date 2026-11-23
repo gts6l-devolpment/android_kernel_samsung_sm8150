@@ -1,7 +1,7 @@
 # Galaxy Tab S6 (gts6l) — Android 17 / LineageOS 24.0 kernel backports: credits
 
 Base: `lindofelix/android_kernel_samsung_gts6l` @ `lineage-22` (4.14.190).
-Branch: `lineage-24.0-gts6l`. Total commits on top of base: **66** (65 backports/adaptations + this credits document).
+Branch: `lineage-24.0-gts6l`. Total commits on top of base: **79** (backports/adaptations + credits updates).
 
 All entries below were applied with `git cherry-pick -x`, `git apply -3` + `git commit -C`, or a locally authored commit for build adaptations. Original authorship is preserved in every case. The URL points to the public commit on GitHub or GitLab from which the change was sourced.
 
@@ -57,21 +57,37 @@ All entries below were applied with `git cherry-pick -x`, `git apply -3` + `git 
 | `deac41eb04a0` | `Shakeel Butt` | `BACKPORT: cgroup: remove extra cgroup_migrate_finish() call` | `fda7b4bc3127` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/fda7b4bc3127dfed24348b01bb1b39f656a3990d` |
 | `a766b6feaf2d` | `Chen Ridong` | `UPSTREAM: cgroup/bpf: only cgroup v2 can be attached by bpf programs` | `0674265f7cd0` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/0674265f7cd0af2c46dd4e440869bb2e95c22017` |
 | `58dba0db9b39` | `Jian Cai` | `arm64: vdso: remove commas between macro name and arguments` | `d2a5f4a03570` | `https://github.com/keremkt38/ErciyesKernel-a50/commit/d2a5f4a035701c32983f63f8c531fa987c5dec23` |
-| `70497576b74d` | Cameron | ANDROID: Makefile: add LLVM=1 support for GCC-free builds | — | local adaptation |
-| `be1b80c92e78` | Cameron | arm64: gts6l: enable Android 17 / LineageOS 24.0 kernel options | — | local adaptation |
-| `425e54bddd97` | `Aleksa Sarai` | `BACKPORT: lib: introduce copy_struct_from_user() helper` | `34d39a21006b` | `https://github.com/iput-object/kernel_xiaomi_sm6250/commit/34d39a21006bf7cb0bb61b85e6bb28d1d578dc2c` |
-| `fdf51c076ebd` | `Adrian Reber` | `UPSTREAM: fork: extend clone3() to support setting a PID` | `049a15b97f3d` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/049a15b97f3d5294ae193f53abec9d30442c6d53` |
-| `6e37c51eee48` | Cameron | cgroup: adapt bpf v2-only backport to stock 4.14 BPF API | — | local adaptation |
-| `9faf47577d49` | `Junxi Qian` | `UPSTREAM: nfc: llcp: add missing return after LLCP_CLOSED checks` | `69dd158b1370` | `https://gitlab.com/xusu616/android_kernel_oneplus_sm8150/-/commit/69dd158b1370a155b89318d286da6a6152c7d142` |
-| `989332e6c17d` | `UDPSendToFailed` | `cgroup: backport cgroup v2 freezer` | `f65fb9cfd2fd` | `https://github.com/UDPSendToFailed/android_kernel_samsung_gta2xlwifi/commit/f65fb9cfd2fd79e7735ae3301e437280aeb0cb12` |
-| `79cb0352a8ff` | `Roman Gushchin` | `BACKPORT: cgroup: freezer: fix frozen state inheritance` | `c82d883e6f02` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/c82d883e6f02ddae76801bf2788530f9e41519e6` |
-| `4fcb3a3ef9a7` | `Oleg Nesterov` | `BACKPORT: cgroup: freezer: call cgroup_enter_frozen() with preemption disabled in ptrace_stop()` | `957c39896c14` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/957c39896c14030d2a466c4cab58302ab5f620b3` |
-| `7958544930e1` | `Roman Gushchin` | `BACKPORT: signal: unconditionally leave the frozen state in ptrace_stop()` | `f4655d5501e1` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/f4655d5501e1cf9fe754de397e84c5dd304dc974` |
-| `8655c5510046` | Shaokun Zhang | docs: add full backport credits for Android 17 / LOS 24.0 | — | local adaptation |
-| `ee9f6a60c5f8` | `Daniel Xu` | `UPSTREAM: kernfs: Add removed_size out param for simple_xattr_set` | `c0e993603128` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/c0e9936031286a163eb16d1400634025e48e5e2b` |
-| `f18b8bb1b6e0` | `Ondrej Mosnacek` | `UPSTREAM: kernfs: do not alloc iattrs in kernfs_xattr_get` | `8648b44d032c` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/8648b44d032c09a38b000e6ebd4673c3ad34f791` |
-| `4e4b93c97cf4` | `Ondrej Mosnacek` | `BACKPORT: kernfs: fix xattr name handling in LSM helpers` | `5c5fe07598a3` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/5c5fe07598a32526a3c1756a2d5d19183acfe109` |
-| `6e5e8a574266` | `Khaeru Irgi` | `arm64/crypto: remove non-standard notation` | `3321226f3bf0` | `https://github.com/HuTao77-Studio/android_kernel_xiaomi_elish/commit/3321226f3bf0956f8ab9871235bbc7a65c4c84e6` |
+| `a19ecc919882` | RyanVordek | ANDROID: Makefile: add LLVM=1 support for GCC-free builds | — | local adaptation |
+| `e3d914c5e43b` | RyanVordek | arm64: gts6l: enable Android 17 / LineageOS 24.0 kernel options | — | local adaptation |
+| `cbecfd2bede0` | `Aleksa Sarai` | `BACKPORT: lib: introduce copy_struct_from_user() helper` | `34d39a21006b` | `https://github.com/iput-object/kernel_xiaomi_sm6250/commit/34d39a21006bf7cb0bb61b85e6bb28d1d578dc2c` |
+| `a2953e904ec5` | `Adrian Reber` | `UPSTREAM: fork: extend clone3() to support setting a PID` | `049a15b97f3d` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/049a15b97f3d5294ae193f53abec9d30442c6d53` |
+| `6e92b192715b` | RyanVordek | cgroup: adapt bpf v2-only backport to stock 4.14 BPF API | — | local adaptation |
+| `9ea89c0ce578` | `Junxi Qian` | `UPSTREAM: nfc: llcp: add missing return after LLCP_CLOSED checks` | `69dd158b1370` | `https://gitlab.com/xusu616/android_kernel_oneplus_sm8150/-/commit/69dd158b1370a155b89318d286da6a6152c7d142` |
+| `5e6051bc5d8b` | `UDPSendToFailed` | `cgroup: backport cgroup v2 freezer` | `f65fb9cfd2fd` | `https://github.com/UDPSendToFailed/android_kernel_samsung_gta2xlwifi/commit/f65fb9cfd2fd79e7735ae3301e437280aeb0cb12` |
+| `bdb43996b664` | `Roman Gushchin` | `BACKPORT: cgroup: freezer: fix frozen state inheritance` | `c82d883e6f02` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/c82d883e6f02ddae76801bf2788530f9e41519e6` |
+| `deb560144a8c` | `Oleg Nesterov` | `BACKPORT: cgroup: freezer: call cgroup_enter_frozen() with preemption disabled in ptrace_stop()` | `957c39896c14` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/957c39896c14030d2a466c4cab58302ab5f620b3` |
+| `53be0f356b2e` | `Roman Gushchin` | `BACKPORT: signal: unconditionally leave the frozen state in ptrace_stop()` | `f4655d5501e1` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/f4655d5501e1cf9fe754de397e84c5dd304dc974` |
+| `a04eaa414edc` | Shaokun Zhang | docs: add full backport credits for Android 17 / LOS 24.0 | — | local adaptation |
+| `219892c911dd` | `Daniel Xu` | `UPSTREAM: kernfs: Add removed_size out param for simple_xattr_set` | `c0e993603128` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/c0e9936031286a163eb16d1400634025e48e5e2b` |
+| `fef359c97f62` | `Ondrej Mosnacek` | `UPSTREAM: kernfs: do not alloc iattrs in kernfs_xattr_get` | `8648b44d032c` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/8648b44d032c09a38b000e6ebd4673c3ad34f791` |
+| `315c3773d143` | `Ondrej Mosnacek` | `BACKPORT: kernfs: fix xattr name handling in LSM helpers` | `5c5fe07598a3` | `https://github.com/LineageOS/android_kernel_qcom_sm8150/commit/5c5fe07598a32526a3c1756a2d5d19183acfe109` |
+
+| `dcda3fbe1a45` | `Khaeru Irgi` | `arm64/crypto: remove non-standard notation` | `3321226f3bf0` | `https://github.com/HuTao77-Studio/android_kernel_xiaomi_elish/commit/3321226f3bf0956f8ab9871235bbc7a65c4c84e6` |
+| `fa6aa7875d0e` | RyanVordek | docs: update backport credits with kernfs and clang IAS fixes | — | local adaptation |
+| `2863c313ce81` | `LucasBlackLu` | `security:dd_core : Fix strict-prototypes warnings in function declaration` | `deffb85817f8` | `https://github.com/LucasBlackLu/android_kernel_samsung_sm8350/commit/deffb85817f8` |
+| `a82922670261` | `Ian Macdonald` | `Fix include path of sec_charging_common.h.` | `7dbf3e10bc60` | `https://github.com/ianmacd/f2q/commit/7dbf3e10bc60` |
+| `f5d3af03082f` | `Ian Macdonald` | `Fix include path of sec_charging_common.h.` | `7dbf3e10bc60` | `https://github.com/ianmacd/f2q/commit/7dbf3e10bc60` |
+| `4861790cfe4b` | RyanVordek | `cam_core: fix cam_context.h include path in cam_trace.h` | `758f4cc27683` | `https://github.com/gmicroul/fajita-sfos-ci/commit/758f4cc276836a2c1ab6fc842be33d34bc807535` |
+| `49e589ee591e` | RyanVordek | `hid: fix TRACE_INCLUDE_PATH for hid-trace.h` | — | local adaptation |
+| `2b74df94e309` | RyanVordek | `drivers: fix implicit-int declarations for clang builds` | — | local adaptation |
+| `9bc8c85be3f4` | RyanVordek | `hid: fix TRACE_INCLUDE_PATH for hid-trace.h` | — | local adaptation |
+| `207cf1f5e22f` | `Adithya R` | `ARM64: Change arch/arm64/lib/mem*.S to use WEAK instead of .weak` | `b8c810ffbcb9` | `https://github.com/anischotora/android_kernel_xiaomi_picasso/commit/b8c810ffbcb9` |
+| `ad533a7f4844` | RyanVordek | `build: clang compatibility fixes for legacy vendor drivers` | — | local adaptation |
+| `4e7ec0003253` | RyanVordek | `build: fix cam tracepoint include and qcacld mdie bound mismatch` | — | local adaptation |
+| `fc21c61db179` | `Nick Desaulniers` | `platform: msm: gsi: Fix symbol versioning failure for gsi_write_channel_scratch` | `03907eb0e200` | `https://review.lineageos.org/c/LineageOS/android_kernel_asus_sm8250/+/337719` |
+| `6526de96743f` | RyanVordek | `build: fix remaining clang vendor-driver errors` | — | local adaptation |
+
+| `HEAD` | RyanVordek | docs: update backport credits for completed clang kernel build | — | local adaptation |
 
 ## Skipped / adapted commits
 
@@ -90,3 +106,4 @@ All entries below were applied with `git cherry-pick -x`, `git apply -3` + `git 
 - clang object builds: `kernel/fork.o`, `kernel/pid.o`, `kernel/signal.o`, `kernel/cgroup/cgroup.o`, `kernel/cgroup/freezer.o`, `kernel/bpf/cgroup.o`, `lib/usercopy.o`, `init/initramfs.o`, `fs/proc/cmdline.o`, `fs/kernfs/inode.o`, `arch/arm64/crypto/aes-ce.o` — OK.
 - clone3 syscall wired for arm64 and arm32 (`__NR_clone3 435`), `CAP_CHECKPOINT_RESTORE` defined.
 - `CONFIG_INITRAMFS_IGNORE_SKIP_FLAG`, `CONFIG_PROC_CMDLINE_APPEND_ANDROID_FORCE_NORMAL_BOOT`, `CONFIG_BPF_JIT(_ALWAYS_ON)` enabled in `gts6l_eur_open_defconfig`.
+- **Full kernel build:** `TMPDIR=/tmp/opencode make -j8 ARCH=arm64 LLVM=1 LLVM_IAS=1 Image.gz-dtb` — OK; `arch/arm64/boot/Image.gz-dtb` produced. `TMPDIR` must be set to a non-empty directory for clang 23 integrated assembler when assembling the large generated kallsyms `.S` file.
