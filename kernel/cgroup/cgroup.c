@@ -5242,8 +5242,12 @@ static int cgroup_destroy_locked(struct cgroup *cgrp)
 
 	cgroup1_check_for_release(parent);
 
-	if (cgrp->root == &cgrp_dfl_root)
-		cgroup_bpf_offline(cgrp);
+	/*
+	 * This base still uses the stock 4.14 cgroup BPF API, which has
+	 * cgroup_bpf_put() (called from cgroup_destroy_locked()) and no
+	 * cgroup_bpf_offline()/percpu_ref model.  Keep the v2-only inherit
+	 * restriction but skip the offline call from the newer API.
+	 */
 
 	/* put the base reference */
 	percpu_ref_kill(&cgrp->self.refcnt);
